@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<link rel='shortcut icon' type='image/x-icon' href='../images/logo.ico' />
+	<title>Traffic Intelligence Server</title>
+	<script src="../libraries/jquery/jquery-2.1.4.js"></script>
+	<script src="../libraries/bootstrap/js/bootstrap.min.js"></script>
+	<!-- <script type="text/javascript" src="../libraries/leaflet/leaflet.js"></script> -->
+	<!-- <link rel="stylesheet" href="../libraries/leaflet/leaflet.css"> -->
+	<!-- <link rel="stylesheet" href="../libraries/leaflet/leaflet-routing-machine-3.2.4/css/leaflet-routing-machine.css" /> -->
+	<script src="../js/get_roles.js"></script>
+	<script src="../js/get_username.js"></script>
+	<!-- <script src="../js/home_map.js"></script>	 -->
+	<script src="../js/logout.js"></script>
+	<!-- <script src="../js/active_mode.js"></script> -->
+	<!-- <script src="../libraries/leaflet/leaflet-routing-machine-3.2.4/dist/leaflet-routing-machine.js"></script> -->
+	<script src="../js/get_header.js"></script>
+	<script src="../libraries/datatable/js/jquery.dataTables.min.js"></script>
+	<script src="../libraries/datatable/js/dataTables.bootstrap.min.js"></script>
+	<link rel="stylesheet" href="../libraries/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/header.css">	
+	<link rel="stylesheet" href="../css/basic.css">
+	<link rel="stylesheet" href="../css/footer.css">
+	<link rel="stylesheet" href="../css/login.css">
+	<link rel="stylesheet" href="../css/home.css">
+	<link rel="stylesheet" href="../css/datetimepicker.css">
+	<link rel="stylesheet" href="../libraries/datatable/css/dataTables.bootstrap.min.css">
+	<script src="../js/authenticate.js"></script>
+	<script src="../js/datetimepicker.js"></script>
+	<link rel="stylesheet" href="../libraries/fontawesome/css/all.min.css">
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script src="../js/dashboard.js"></script>
+     <script>
+		$( document ).ready(function() {
+        	$(".datetimepicker").datetimepicker();
+		});
+		$(document).ready(function(){
+		        active_mode = function(){
+				    $("#home").addClass("active")	
+		  }
+			setTimeout( function(){
+				active_mode();
+			}, 800);
+		});
+		function hideNav(){
+    $('#left_menu').toggleClass('dis-none');
+    $('#top_content').toggleClass('p-l-15');
+    $('#top_content').toggleClass('col-sm-10');
+    $('#top_content').toggleClass('col-sm-12');
+}
+  </script>
+  <script src="../js/dashboard.js"></script>
+  <script>
+ $(document).ready(function(){
+  var date=new Date().getDate();
+    var month=new Date().getMonth();
+    var year= new Date().getFullYear();
+    var hours= new Date().getHours();
+    var minutes = new Date().getMinutes();
+    var seconds = new Date().getSeconds();
+
+    var todatetime = date+':'+month+':'+year+' '+hours+':'+minutes+':'+seconds;
+    var fromhours = new Date().getHours()-1;
+    var fromdatetime = date+':'+month+':'+year+' '+fromhours+':'+minutes+':'+seconds;
+
+    var strfromto = '('+fromdatetime+' to '+todatetime+')';
+
+    var enforcement=$('#enforcement');
+    enforcement.html('Enforcement & violations (Hour) \n'+strfromto);
+ });
+  </script>
+      <style>
+      	.dis-none{
+      		display: none;
+      	}
+      	.p-l-15{
+      		padding-left: 15px !important;
+      	}
+        #traffic_congestion{
+         position: absolute;
+         left:81px;
+        }
+
+        body{
+          background: black !important;
+        }
+        .card{
+          border:2px solid white;
+          width:100%;
+          border-radius: 10px;
+          overflow:hidden !important;
+        }
+       
+        path{
+          stroke:white;
+          stroke-width: 2;
+        }
+
+        #gaugechart path {
+          stroke:black !important;
+          stroke-width: 2;
+        }
+
+        #gaugechart1 path {
+          stroke:white !important;
+          stroke-width: 2;
+        }
+
+        text{
+          fill:white !important;
+          font-size:11px !important;
+          font-weight: bold !important;
+        }
+
+        #gaugechart text{
+            fill:black !important;
+        }
+        
+        #gaugechart1 text{
+            fill:white !important;
+        }
+
+        line{
+          stroke:white !important;
+          stroke-width:2  !important;
+        }
+
+        #gaugechart{
+          padding-bottom:75px !important;
+        }
+        
+        #gaugechart1 rect[width="555.8"]{
+            fill:black !important;
+        }
+
+        #donutchart rect{
+          fill:black;
+        }
+
+        #barChart rect[width="454"]{
+          fill:black !important;
+        }
+
+
+        #barChart1 rect[width="551"],#barChart1 rect[x="486"],#barChart1 text[x="512"],#barChart rect[x="395"]{
+          fill:black !important;
+        }
+
+        #barChart text[x="421"],#barChart1 text[x="699"]{
+          display:none !important;
+        }
+
+        #donutchart div[dir="ltr"]{
+          width:100% !important;
+        }
+        #gaugechart svg{
+          position: relative;
+          left:61px;
+          top:34px;
+        }
+        #barChart svg{
+          position: relative;
+          left:9px;
+        }
+        #gaugechart1 svg{
+          position: relative;
+          left:-14px;
+          top:1px;
+        }
+
+        #donutchart rect{
+          width:347px !important;
+          position: absolute;
+          left:2px;
+        }
+
+        #barChart1 rect{
+          overflow: hidden !important;
+        }
+
+        h6{
+          color:white;
+          font-size:14px !important;
+          font-weight: bold !important;
+        }
+      </style>
+
+</head>
+<body onload="fetchusername();">
+
+<div class="row" id="header">
+   <div class="col-sm-2"><a href="http://www.itspe.co.in/" target="_blank"><img src="../images/logo.jpg" style="max-width:100%;max-height:100%;"></a></div>
+
+	<div class="col-sm-8" style="" id="title"><b><font color="white" size="5em">LUCKNOW ADAPTIVE TRAFFIC CONTROL SYSTEM</font></b></div>
+	   
+	  <!-- <div class="col-sm-2 col-sm-offset-5"><a href="" target="_blank"><img src="../images/superwave.jpg" style="max-width:69px;max-height:100%;"></a></div> -->
+	  <div class="col-sm-4" id="header_user">
+	  	<font color="white" style="line-height: 29px;">User: </font><font id="usernameGet" color="white" align="left"></font>
+	  	<div style="width: auto;float: right;background: #fff;padding: 0 25px;margin-left: 15px;"><a href="" target="_blank" style="margin-right:10px;"><img src="../images/logo.jpg" style="max-width:30px;max-height:100%;"></a><a href="" target="_blank"><img src="../images/superwave.jpg" style="max-width:30px;max-height:100%;"></a>
+	</div>
+	</div>
+</div>
+<!-- <div style="text-align:center;margin:0;width:100vw;margin-top: 30px;" class="row"> -->
+<div style="text-align:center;margin:0;width:100vw;margin-top: 30px;" class="row">
+
+	<div class="col-sm-2" id="left_menu" style="">
+		<ul class="nav nav-pills nav-stacked red" id="menu_bar">
+			  <!-- <font color="gray">User: </font><font id="usernameGet" color="gray" align="left"></font> -->
+		</ul>
+	</div>
+
+	<div class="col-sm-10 main-wrapper-block" id="top_content">
+		<ul class="nav nav-tabs nav-justified" id="home-tabs">
+			<!-- <li class="active"><a href="dashboard.html">Dashboard</a></li> -->
+		</ul>
+		<br>
+		<span style="text-align: left;">
+		<button class="btn btn-primary expand" style="background: #fff;color: #253654" onclick="hideNav()"><i class="fa fa-expand"></i></button>
+		</span>
+		<br>
+		<div class = "row graphs">
+		  <div class ="container">
+		    <div class ="row">
+		        <div class="col-md-4">
+		          <h6 id="online">Online</h6>
+		        </div>
+		        <div class="col-md-4">
+		          <h6 id="traffic_congestion">Traffic Congestion</h6>
+		        </div>
+		        <div class="col-md-4">
+		          <h6 id="enforcement"></h6>
+		        </div>
+		    </div>
+		    <div class ="row">
+		        <div class="col-md-4">
+		            <div class="card">
+		                <div class="card-body">
+		                    <div id="donutchart"></div>
+		                </div>
+		              </div>
+		        </div>
+		        <div class="col-md-3" id="padding">
+		            <div class="card">
+		                <div class="card-body">
+		                    <div id="gaugechart" ></div>
+		                </div>
+		              </div>
+		        </div>
+		        <div class="col-md-5">
+		            <div class="card">
+		                <div class="card-body">
+		                    <div id="barChart" ></div>
+		                </div>
+		              </div>
+		        </div>
+		    </div> 
+		    <div class="row">
+		        <div class="col-md-8">
+		          <h6 id="situation">Situation (Live)</h6>
+		        </div>
+		        <div class="col-md-4">
+		        <h6 id="faults">Faults</h6>
+		        </div>
+		    </div>
+		    <div class="row">
+		        <div class="col-md-6">
+		            <div class="card">
+		                <div class="card-body">
+		                    <div id="barChart1"></div>
+		                </div>
+		              </div>    
+		        </div>
+		        <div class="col-md-6">
+		            <div class="card">
+		                <div class="card-body">
+		                    <div id="gaugechart1"></div>
+		                </div>
+		              </div> 
+		        </div>
+		    </div>
+		  </div>  
+		</div>
+	</div>
+</div>
+
+
+<nav class="navbar navbar-fixed-bottom" id="footer">
+	<div class="navbar-header">
+	      <a class="navbar-brand" href="http://www.thrissurcitypolice.gov.in/products/traffic-intelligence-server" target="_blank">Powered by Traffic Intelligence Server</a>
+	</div>
+	<div id="licencelink">
+		<a class="" href="licence/licence.html" target="_blank">View Licence</a>
+	</div>
+	<a class="navbar-brand navbar-right" href="http://www.itspe.co.in/" target="_blank">
+		Copyrights @ ITS Planners and Engineers
+	</a>
+	<!-- <ul class='marquee'>
+	</ul> -->
+</nav> 	
+
+</body>
+</html>

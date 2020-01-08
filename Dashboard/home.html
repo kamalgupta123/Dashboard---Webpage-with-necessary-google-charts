@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<link rel='shortcut icon' type='image/x-icon' href='../images/logo.ico' />
+	<title>Traffic Intelligence Server</title>
+	<script src="../libraries/jquery/jquery-2.1.4.js"></script>
+	<script src="../libraries/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../libraries/leaflet/leaflet.js"></script>
+	<link rel="stylesheet" href="../libraries/leaflet/leaflet.css">
+	<link rel="stylesheet" href="../libraries/leaflet/leaflet-routing-machine-3.2.4/css/leaflet-routing-machine.css" />
+	<script src="../js/get_roles.js"></script>
+	<script src="../js/get_username.js"></script>
+	<script src="../js/home_map.js"></script>	
+	<script src="../js/logout.js"></script>
+	<script src="../js/active_mode.js"></script>
+	<script src="../libraries/leaflet/leaflet-routing-machine-3.2.4/dist/leaflet-routing-machine.js"></script>
+	<script src="../js/get_header.js"></script>
+	<script src="../libraries/datatable/js/jquery.dataTables.min.js"></script>
+	<script src="../libraries/datatable/js/dataTables.bootstrap.min.js"></script>
+	<link rel="stylesheet" href="../libraries/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/header.css">	
+	<link rel="stylesheet" href="../css/basic.css">
+	<link rel="stylesheet" href="../css/footer.css">
+	<link rel="stylesheet" href="../css/login.css">
+	<link rel="stylesheet" href="../css/home.css">
+	<link rel="stylesheet" href="../css/datetimepicker.css">
+	<link rel="stylesheet" href="../libraries/datatable/css/dataTables.bootstrap.min.css">
+	<script src="../js/authenticate.js"></script>
+	<script src="../js/datetimepicker.js"></script>
+	<link rel="stylesheet" href="../libraries/fontawesome/css/all.min.css">
+	<script>
+		$( document ).ready(function() {
+        	$(".datetimepicker").datetimepicker();
+		});
+	</script>
+	<style type="text/css">
+		.float-img-right {
+		    right: 5px !important;
+		}
+		.float-img {
+		    z-index: 2;
+		    position: relative;
+		    background-color: rgba(219, 200, 200,0.9) !important;
+		    padding: 5px !important;
+		    color: black;
+		    width: 4%;
+		    font-weight: 600;
+		    font-size: 8px !important;
+		    float: right;
+		    top: 10px;
+		    right: 20px;
+		    border-radius: 5px;
+		}
+		.float-img img{
+			width: 20px;
+		}
+		hr{
+			margin-top: 5px;
+			margin-bottom: 5px;
+		}
+		.icons{
+			cursor: pointer;
+		}
+		.expand{
+			z-index: 2;
+			z-index: 2;
+		    position: relative;
+		    padding: 5px !important;
+		    font-weight: 600;
+		    font-size: 10px !important;
+		    float: right;
+		    top: 70px;
+		    left: 13px;
+		    border-radius: 5px;
+		}
+		.dis-none{
+			display: none;
+		}
+		.p-l-15{
+			padding-left: 15px !important;
+		}
+	</style>
+	<script type="text/javascript">
+		function hideNav(){
+    $('#left_menu').toggleClass('dis-none');
+    $('#top_content').toggleClass('p-l-15');
+    $('#top_content').toggleClass('col-sm-10');
+    $('#top_content').toggleClass('col-sm-12');
+}
+	</script>
+</head>
+<body onload="fetchusername();">
+
+<div class="row" id="header">
+   <div class="col-sm-2"><a href="http://www.itspe.co.in/" target="_blank"><img src="../images/logo.jpg" style="max-width:100%;max-height:100%;"></a></div>
+
+	<div class="col-sm-8" style="" id="title"><b><font color="white" size="5em">LUCKNOW ADAPTIVE TRAFFIC CONTROL SYSTEM</font></b></div>
+	   
+	  <!-- <div class="col-sm-2 col-sm-offset-5"><a href="" target="_blank"><img src="../images/superwave.jpg" style="max-width:69px;max-height:100%;"></a></div> -->
+	  <div class="col-sm-4" id="header_user">
+	  	<font color="white" style="line-height: 29px;">User: </font><font id="usernameGet" color="white" align="left"></font>
+	  	<div style="width: auto;float: right;background: #fff;padding: 0 25px;margin-left: 15px;"><a href="" target="_blank" style="margin-right:10px;"><img src="../images/logo.jpg" style="max-width:30px;max-height:100%;"></a><a href="" target="_blank"><img src="../images/superwave.jpg" style="max-width:30px;max-height:100%;"></a>
+	</div>
+	</div>
+</div>
+<!-- <div style="text-align:center;margin:0;width:100vw;margin-top: 30px;" class="row"> -->
+<div style="text-align:center;margin:0;width:100vw;margin-top: 30px;" class="row">
+
+	<div class="col-sm-2" id="left_menu" style="">
+		<ul class="nav nav-pills nav-stacked red" id="menu_bar">
+			  <!-- <font color="gray">User: </font><font id="usernameGet" color="gray" align="left"></font> -->
+		</ul>
+	</div>
+
+	<div class="col-sm-12 main-wrapper-block" id="top_content">
+		<!-- <ul class="nav nav-tabs nav-justified" id="home-tabs">
+			<li class="active"><a href="home.html"><i class="far fa-map btn-icon"></i>&nbsp;Map</a></li>
+		</ul> -->
+		
+
+	        <div id="home_map" style="height:78vh">
+	        	<button class="btn btn-primary expand" style="float: left;background: #253654;" onclick="hideNav()"><i class="fa fa-expand"></i></button>
+				<div class="float-img float-img-right">
+					<label class="icons">
+						<img src="../images/detectorcamera.png" alt="DETECTOR" class="det-img">
+						<br>
+						<span class="det-txt">DET</span>
+						<input name="mapmarker" type="checkbox" value="detector" class="hidden" checked>
+					</label>
+
+					<hr>
+
+					<label class="icons">
+						<img src="../images/trafficSignal.png" alt="Signal" class="signal-img">
+						<br>
+						<span class="signal-txt">Signal</span>
+						<input name="mapmarker" type="checkbox" value="signal" class="hidden" checked>
+					</label>
+
+					<hr>
+
+					<label class="icons">
+						<img src="../images/cctv.png" alt="CCTV" class="cctv-img">
+						<br>
+						<span class="cctv-txt">CCTV</span>
+						<input name="mapmarker" type="checkbox" value="cctv" class="hidden" checked>
+					</label>
+
+					<hr>
+
+					<label class="icons">
+						<img src="../images/anprcamera.png" alt="ANPR" class="anpr-img">
+						<br>
+						<span class="anpr-txt">ANPR</span>
+						<input name="mapmarker" type="checkbox" value="anpr" class="hidden" checked>
+					</label>
+
+					<hr>
+
+					<label class="icons">
+						<img src="../images/event-black.png" alt="ANPR" class="events-img">
+						<br>
+						<span class="events-txt">Events</span>
+						<input name="mapmarker" type="checkbox" value="events" class="hidden" checked>
+					</label>
+
+					<hr>
+
+					<label class="icons">
+						<img src="../images/crime-black.png" alt="ANPR" class="crime-img">
+						<br>
+						<span class="crime-txt">Crimes</span>
+						<input name="mapmarker" type="checkbox" value="crime" class="hidden" checked>
+					</label>
+
+					<hr>
+
+					<label class="icons">
+						<img src="../images/incident-black.png" alt="ANPR" class="incident-img">
+						<br>
+						<span class="incident-txt">Incidents</span>
+						<input name="mapmarker" type="checkbox" value="incident" class="hidden" checked>
+					</label>
+
+
+					<hr>
+
+					<label class="icons">
+						<img src="../images/roadwork-black.png" alt="Road Work" class="roadwork-img">
+						<br>
+						<span class="roadwork-txt">Road Works</span>
+						<input name="mapmarker" type="checkbox" value="roadwork" class="hidden" checked>
+					</label>
+
+					<hr>
+
+					<label class="icons">
+						<img src="../images/accident.png" alt="Accidents" class="accident-img">
+						<br>
+						<span class="accident-txt" style="color: red;">Accidents</span>
+						<input name="mapmarker" type="checkbox" value="accident" class="hidden" checked>
+					</label>
+
+					
+
+				</div>
+			</div>
+		<input type="hidden" name="zoom_view" value="false"/>
+	</div>
+</div>
+
+<nav class="navbar navbar-fixed-bottom" id="footer">
+	<div class="navbar-header">
+	      <a class="navbar-brand" href="http://www.thrissurcitypolice.gov.in/products/traffic-intelligence-server" target="_blank">Powered by Traffic Intelligence Server</a>
+	</div>
+	<div id="licencelink">
+		<a class="" href="licence/licence.html" target="_blank">View Licence</a>
+	</div>
+	<a class="navbar-brand navbar-right" href="http://www.itspe.co.in/" target="_blank">
+		Copyrights @ ITS Planners and Engineers
+	</a>
+	<!-- <ul class='marquee'>
+	</ul> -->
+</nav>
+
+<div class="modal fade" id="liveModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Live View</h4>
+        </div>
+        <div class="modal-body">
+          <!-- To be changed -->
+          <div id="videoTag">
+          </div>
+          <!-- To be changed -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="modal fade" id="detectorReportModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Detector Report</h4>
+        </div>
+        <div class="modal-body">
+        	<label>From Date</label><input type="text" id="from" name="from" placeholder = "dd-mm-yyyy" class="form-control datetimepicker" style="width:20%;display:inline-block;margin-right:30px;">
+			<label>To Date</label><input type="text" id="to" name="to" placeholder = "dd-mm-yyyy" class="form-control datetimepicker" style="width:20%;display:inline-block;margin-right:30px;">
+			<br><br>
+			<input class="btn btn-primary" style="background-color:#253654" id="createReport" type="button" value="Submit"/>
+			<input type="text" name="orderCol" value="" style="display:none;">
+			<input type="text" name="orderDir" value="" style="display:none;">
+			<input type="text" name="totalValues" value="" style="display:none;">
+			<input class="btn btn-primary" style="background-color:#253654" id="downloadReport" type="button" value="Download Excel Report"/>
+			<br><br>
+			<table id="vehicle_count" class="table" cellspacing="0" width="100%" style="width:50%;margin: 0 auto;">
+		        <thead>
+		            <tr>
+		            	<th>Camera SCN</th>
+		            	<th>Total Count</th>
+		            </tr>
+		        </thead>
+	    	</table>
+			<br><br>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+</body>
+</html>
